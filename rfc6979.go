@@ -47,9 +47,17 @@ func (q *Q) submod(x *big.Int) *big.Int {
 	return n
 }
 
+// bits2int converts a byte slice into a big.Int. Excess bits larger than the
+// finite field order are right-shifted off.
 func (q *Q) bits2int(bits []byte) *big.Int {
 	n := new(big.Int).SetBytes(bits)
 	blen := len(bits) * 8
+
+	// Edgecase for simple curves with <8 bit orders: we don't want to right-shift away all the bits
+	if blen == 8 {
+		blen = n.BitLen()
+	}
+
 	if q.qlen < blen {
 		n.Rsh(n, uint(blen-q.qlen))
 	}
