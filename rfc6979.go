@@ -47,9 +47,9 @@ func (q *Q) submod(x *big.Int) *big.Int {
 	return n
 }
 
-// bits2int converts a byte slice into a big.Int. Excess bits larger than the
+// Bits2int converts a byte slice into a big.Int. Excess bits larger than the
 // finite field order are right-shifted off.
-func (q *Q) bits2int(bits []byte) *big.Int {
+func (q *Q) Bits2int(bits []byte) *big.Int {
 	n := new(big.Int).SetBytes(bits)
 	blen := len(bits) * 8
 
@@ -74,7 +74,7 @@ func (q *Q) int2octets(x *big.Int) []byte {
 }
 
 func (q *Q) bits2octets(bits []byte) []byte {
-	z1 := q.bits2int(bits)
+	z1 := q.Bits2int(bits)
 	z1 = q.submod(z1)
 	return q.int2octets(z1)
 }
@@ -110,7 +110,7 @@ func (q *Q) Nonce(privkey *big.Int, h1 []byte, hashFn func() hash.Hash) *big.Int
 			t = append(t, v...)
 		}
 
-		nonce := q.bits2int(t)
+		nonce := q.Bits2int(t)
 		if nonce.Cmp(bigOne) >= 0 && nonce.Cmp(q.q) < 0 {
 			return nonce
 		}
