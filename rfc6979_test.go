@@ -1,4 +1,4 @@
-package rfc6979
+package rfc6979_test
 
 import (
 	"crypto/sha1"
@@ -11,6 +11,8 @@ import (
 	"math/big"
 	"os"
 	"testing"
+
+	"github.com/kklash/rfc6979"
 )
 
 func bigi(s string) *big.Int {
@@ -45,7 +47,7 @@ func init() {
 
 func TestRFC6979(t *testing.T) {
 	for _, fieldFixture := range fixtures {
-		q := NewQ(bigi(fieldFixture.Q))
+		q := rfc6979.NewQ(bigi(fieldFixture.Q))
 
 		for _, messageFixture := range fieldFixture.Messages {
 			var hashFn func() hash.Hash

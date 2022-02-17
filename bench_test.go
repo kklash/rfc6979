@@ -1,13 +1,15 @@
-package rfc6979
+package rfc6979_test
 
 import (
 	"crypto/sha256"
 	"testing"
+
+	"github.com/kklash/rfc6979"
 )
 
 func BenchmarkNonceECDSA256(b *testing.B) {
 	fieldFixture := fixtures[4] // ECDSA 256-bit
-	q := NewQ(bigi(fieldFixture.Q))
+	q := rfc6979.NewQ(bigi(fieldFixture.Q))
 	hashed := sha256.Sum256([]byte("whatever"))
 	privKey := bigi(fieldFixture.Privkey)
 

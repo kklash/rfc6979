@@ -4,9 +4,12 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"io"
+	"math/big"
 	"testing"
 )
 
+// This tests the worked-out example from RFC6979's appendix:
+//
 // https://datatracker.ietf.org/doc/html/rfc6979#appendix-A.1
 func TestK163Example(t *testing.T) {
 	q := NewQ(bigi("0x4000000000000000000020108A2E0CC0D99F8A5EF"))
@@ -49,4 +52,9 @@ func TestK163Example(t *testing.T) {
 			t.Errorf("q.Nonce failed to derive expected nonce\nWanted %s\nGot    %s", expected, actual)
 		}
 	})
+}
+
+func bigi(s string) *big.Int {
+	n, _ := new(big.Int).SetString(s, 0)
+	return n
 }
